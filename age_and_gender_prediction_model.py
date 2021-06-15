@@ -131,3 +131,14 @@ hist=age_model.fit(X_train, y_train, epochs=50, batch_size=20, validation_data=(
 
 # age model summary
 age_model.summary()
+
+# Save JSON and h5
+model_structure = gender_model.to_json()
+f = Path("cnn_gender_rgb.json")
+f.write_text(model_structure)
+gender_model.save_weights("cnn_gender_rgb.h5")
+
+model_structure = age_model.to_json()
+f = Path("cnn_age10_rgb.json")
+f.write_text(model_structure)
+age_model.save_weights("cnn_age10_rgb.h5")
