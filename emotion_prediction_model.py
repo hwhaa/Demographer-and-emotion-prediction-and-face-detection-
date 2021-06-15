@@ -67,7 +67,6 @@ history = model.fit(x = train_generator,epochs = epochs,validation_data = valida
 model.summary()
 
 # Save JSON and h5
-from pathlib import Path
 model_structure = model.to_json()
 f = Path("EMO_MODEL_STRUCTURE.json")
 f.write_text(model_structure)
