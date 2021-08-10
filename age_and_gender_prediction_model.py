@@ -28,27 +28,25 @@ for file in random.sample(files, 5000):
       # encode age
         age = int(file.split('_')[0])
         if age > 80:
-            age = '10'
-        elif age > 60:
-            age = '9'
-        elif age > 47:
-            age = '8'
-        elif age > 37:
-            age = '7'
-        elif age > 31:
-            age = '6'
-        elif age > 22:
-            age = '5'
-        elif age > 16:
-            age = '4'
-        elif age > 10:
-            age = '3'
-        elif age > 5:
-            age = '2'
+            age = 9 #81-116
+        elif age > 64:
+            age = 8 #65-80
+        elif age > 54:
+            age = 7 #55-64
+        elif age > 44:
+            age = 6 #45-54
+        elif age > 34:
+            age = 5 #35-44
+        elif age > 24:
+            age = 4 #25-34
+        elif age > 17:
+            age = 3 #18-24
+        elif age > 11:
+            age = 2 #12-17
         elif age > 2:
-            age = '1'
+            age = 1 #3-11
         else:
-            age = '0'
+            age = 0 #0-2
         ages.append(age)
         genders.append(int(file.split('_')[1]))
         image = cv2.imread(path+file)
