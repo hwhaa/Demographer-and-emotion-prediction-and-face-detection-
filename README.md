@@ -91,17 +91,24 @@ We only used 3 emotions (happy, neutral, sad) in this project since these 3 emot
         else:
             age = 0 #0-2
    ```
-**random select 5000 images only.**
 
 2. Emotion
 
-   ImageDataGenerator on training set
-   how many images we had after augmentation?
+   ImageDataGenerator (image augmentation) was applied to add more training data into the model and create variability in the data in order to improve the model prediction accuracy. 
+
+## Face detection
+MTCNN
 
 
 ## Model Building (evaluation and validation?)
-1. Age prediction
+1. Age 
+2. using only 5000 images
+   train test split 8:2
+   result, accuracy: 
    
+2. Gender 
+
+3. Emotion
 
 ## Conclusion
 
