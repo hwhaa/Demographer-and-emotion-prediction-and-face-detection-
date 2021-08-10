@@ -29,37 +29,47 @@ Our clients could then use the collected data for marketing campaigns or even wo
 - MTCNN 0.1.0
 - Matplotlib 3.3.2
 - Seaborn 0.11.0
-- 
+
 ## Overall Architecture
 <img src="images/Screenshot%20(111).png">
 
 ## Data Collection
 1. Age and gender prediction
-We used [UTKFace](https://www.kaggle.com/jangedoo/utkface-new) dataset from Kaggle. It contains 20k+ cropped face images from age 1-116 and 5 ethnicities with both male and female. We chose not to include ethnicity in this project because of the limited time frame. 
 
-The below graph showed the disturbution of gender data. 48% of the data is Female and 52% is Male. 
-<img src="images/Screenshot%20(104).png">
+   We used [UTKFace](https://www.kaggle.com/jangedoo/utkface-new) dataset from Kaggle. It contains 20k+ cropped face images from age 1-116 and 5 ethnicities with both male and female. We chose not to include ethnicity in this project because of the limited time frame. 
 
-This plot showed the disturbution of age data. 
-This is a skewed dataset with most of the age are between 1-2 and 20-30 years old, so much less for age above 80.
+   The below graph showed the disturbution of the gender. 48% of the data is Female and 52% is Male. 
+   <img src="images/Screenshot%20(104).png">
 
-<img src="images/Screenshot%20(109).png">
+   This is a skewed dataset in terms of the age with most of them are between 1-2 and 20-30 years old, so much less for age above 80.
+
+   <img src="images/Screenshot%20(109).png">
 
 2. Emotion prediction
-We used [Emotion Detection](https://www.kaggle.com/ananthu017/emotion-detection-fer) dataset which is also from Kaggle and contains 35k+ cropped face images with 7 emotions (happy, neutral, sad, anger, surprise, disgust, fear). 
-We only used 3 emotions (happy, neutral, sad) in this project since these 3 emotions is enough to know if a customer is satisfried with the service or product. 
-**give num for each emtion**
+
+   We used [Emotion Detection](https://www.kaggle.com/ananthu017/emotion-detection-fer) dataset which is also from Kaggle and contains 35k+ cropped face images with 7 emotions (happy, neutral, sad, anger, surprise, disgust, fear). 
+We only used 3 emotions (happy, neutral, sad) in this project since these 3 emotions is enough to know if a customer is satisfied with the service or product. 
+
+   It is also a skewed dataset with the images of "sad" is much less than the other two emotions.
+
+   Emotions | no. of images | percentage%
+   -------- | ------------- | ----------
+   Happy | 1774 | 57%
+   Neutral | 1233 | 39.5%
+   Sad | 111 | 3.5%
 
 3. Face detection
-Considered of the limited time frame, we didn't train our own model on face detection. Instead, we used a pre-trained face detection model, MTCNN, to save the time for training another model.
+
+   Considered of the limited time frame, we didn't train our own model on face detection. Instead, we used a pre-trained face detection model, MTCNN, to save the time for training another model.
 
 ## Data Preprocessing
 1. Age and gender
-All the actual age and gender were wriiten on the image file name. For example, "10_0_0_201701102200447314.jpg", the first number "10" means the person in that image was 10 years old. The second number "0" indicated the gender, "0" is male and "1" is female.
 
-We needed to label each image with the correct information for training our models. We then splited the age into 10 groups (0-2, 3-11, 12-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65-80, 81-116). We did that because it can enhance the prediction accuracy. Also, different age group have different consumption ability or needs and therefore need a different marketing strategies.
-```
-age = int(file.split('_')[0])
+   All the actual age and gender were wriiten on the image file name. For example, "10_0_0_201701102200447314.jpg", the first number "10" means the person in that image was 10 years old. The second number "0" indicated the gender, "0" is male and "1" is female.
+
+   We needed to label each image with the correct information for training our models. We then splited the age into 10 groups (0-2, 3-11, 12-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65-80, 81-116). We did that because it can enhance the prediction accuracy. Also, different age group have different consumption ability or needs and therefore need a different marketing strategies.
+   ```
+   age = int(file.split('_')[0])
         if age > 80:
             age = 9 #81-116
         elif age > 64:
@@ -80,15 +90,18 @@ age = int(file.split('_')[0])
             age = 1 #3-11
         else:
             age = 0 #0-2
-```
+   ```
 **random select 5000 images only.**
 
 2. Emotion
-ImageDataGenerator on training set
+
+   ImageDataGenerator on training set
+   how many images we had after augmentation?
 
 
-
-## Model Building
+## Model Building (evaluation and validation?)
+1. Age prediction
+   
 
 ## Conclusion
 
