@@ -17,7 +17,6 @@ Our main target clients are marketing teams in any business since customer data 
 * [Face Detection Model](#face-detection-model)
 * [Prediction Models Building](#prediction-models-building)
 * [Result](#result)
-* [Conclusion](#conclusion)
 * [Challenges](#challenges)
 * [Next Steps](#next-steps)
 
