@@ -4,8 +4,9 @@
 <img src="images/face_header.jpg">
 
 ## Introduction
-In this project, we try to provide an alternative way for our clients to collect their customer information. To collect them, we are predicting the age, gender and emotion from a customer face detected in image. Our main target clients are marketing teams in any business(es) since customer data is the key to any marketing strategie(s).   
-Our clients could then use the collected data for marketing campaigns or even work as a security system for any age-restricted or gender-restricted venue(s), e.g. casinos.
+In this project, we are trying to provide an alternative way for our clients to collect their customers' information. Through the image inputted by the user, we detect the faces and predict the age, gender and emotion from them. 
+
+Our main target clients are marketing teams in any business since customer data is the key to any marketing strategy. Apart from that, clients from the secrity industry can even us it as a security system for any age-restricted or gender-restricted venue, e.g. casinos.
 
 ## Table of Contents
 * [Introduction](#introduction)
@@ -13,6 +14,9 @@ Our clients could then use the collected data for marketing campaigns or even wo
 * [Overall Architecture](#overall-architecture)
 * [Data Collection](#data-collection)
 * [Data Preprocessing](#data-preprocessing)
+* [Face Detection Model](#face-detection-model)
+* [Prediction Models Building](#prediction-models-building)
+* [Result](#result)
 * [Conclusion](#conclusion)
 * [Challenges](#challenges)
 * [Next Steps](#next-steps)
@@ -36,7 +40,7 @@ Our clients could then use the collected data for marketing campaigns or even wo
 ## Data Collection
 1. Age and gender prediction
 
-   We used [UTKFace](https://www.kaggle.com/jangedoo/utkface-new) dataset from Kaggle. It contains 20k+ cropped face images from age 1-116 and 5 ethnicities with both male and female. We chose not to include ethnicity in this project because of the limited time frame. 
+   We used [UTKFace](https://www.kaggle.com/jangedoo/utkface-new) dataset from Kaggle. It contains 20k+ cropped face images of both male and female from age 1-116 and 5 ethnicities. We chose not to include ethnicity in this project because of the limited time frame. 
 
    The below graph showed the disturbution of the gender. 48% of the data is Female and 52% is Male. 
    <img src="images/Screenshot%20(104).png">
@@ -68,7 +72,7 @@ We only used 3 emotions (happy, neutral, sad) in this project since these 3 emot
 ## Data Preprocessing
 1. Age and gender
 
-   All the actual age and gender were wriiten on the image file name. For example, "10_0_0_201701102200447314.jpg", the first number "10" means the person in that image was 10 years old. The second number "0" indicated the gender, "0" is male and "1" is female.
+   All the actual age and gender were written on the image file name. For example, "10_0_0_201701102200447314.jpg", the first number "10" means the person in that image was 10 years old. The second number "0" indicated the gender, "0" is male and "1" is female.
 
    We needed to label each image with the correct information for training our models. We then splited the age into 10 groups (0-2, 3-11, 12-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65-80, 81-116). We did that because it can enhance the prediction accuracy. Also, different age group have different consumption ability or needs and therefore need a different marketing strategies.
    ```
@@ -97,35 +101,82 @@ We only used 3 emotions (happy, neutral, sad) in this project since these 3 emot
 
 2. Emotion
 
-   ImageDataGenerator (image augmentation) was applied to add more training data into the model and create variability in the data in order to improve the model prediction accuracy. 
+   ImageDataGenerator (image augmentation) was applied to create variability in the data in order to improve the model prediction accuracy. 
 
-## Face detection
+## Face detection model
 **MTCNN**
 
 MTCNN or "Multi-Task Cascaded Convolutional Neural Network" is a python (pip) library written by Github user ipacz (check out the open source project [here](https://github.com/ipazc/mtcnn)). It got its name because of the cascade structure uses in the network and it is "multi-task" because it uses three models. The three models make three types of predictions, face classification, bounding box regression, and facial landmark localization. They are not connected directly; instead, outputs of the previous stage are fed as input to the next stage.
 
 
-## Model Building (evaluation and validation?)
+## Prediction models building
+To be able to make accuracy prediction from images, we built CNN models to extract featrues from them.
+
 1. Age 
-   Due to the large data size, we randomly selected 5000 images for model training in order to save the training time. 
-   Splited the training and testing dataset into 8:2 ratio (training: 4000 images, testing 1000 images).
-   result, accuracy: 
+
+   Due to the large data size, we randomly selected 5000 images for model building in order to save the training time. 
+   After that we categorised them into 10 age group and splited the training and testing dataset into 8:2 ratio (training: 4000 images, testing 1000 images).
+   
+   <img src="images/Screenshot%20(61).png">
+   
+   It gave the validation accuracy around 85% after 20 epoches.
    
 2. Gender 
-  Also randmly selected 5000 images for the gender prediction model with train 8 : test 2 ratio (training: 4000 images, testing 1000 images)
+
+   Started with randomly selected 5000 images for the gender prediction model with train 8 : test 2 ratio (training: 4000 images, testing 1000 images).
+   
+   <img src="images/Screenshot%20(65).png" width="450" height="300">
+   
+   Both the training and validation accuracies were low with only around 45%. It showed that it was not a good model.
 
 3. Emotion
 
-## Result
+   Training set had 12616 images and testing set had 3118 images, giving a train test ratio of 8:2. Image augmentation was then applied on both training and testing dataset.
 
-## Conclusion
+   <img src="images/Screenshot%20(114).png" width="450" height="300">
+   
+   The validation accuracy were around 84% and slightly higher than the training accuracy and that may due to heavy dropout and imbalance dataset(most are happy and neutral).
+   
+## Result
+After we have face detection model, age, gender and emotion prediction models ready, it is time to apply.
+
+Here is the input image with 8 people. 
+
+<img src="images/group_picture.jpg" width="550" height="370">
+
+The MTCNN model can accurately locate the faces and put bounding boxes around them.
+
+<img src="images/Screenshot%20(67).png" width="600" height="370">
+
+We then apply all three prediction models on the detected faces. 
+
+<img src="images/Screenshot%20(68).png" width="170" height="180">
+
+However, we discovered that the age model perform pretty bad especially on the elderly. Many of them were predicted as age 0-2 or 3-11. 
+
+<img src="images/Screenshot%20(106).png">
+
+Also, it was not ideal when predicting the "sad" emotion, most of them were predicted as "neutral".
+
+<img src="images/Screenshot%20(107).png">
 
 
 ## Challenges
-1. Age and emotion dataset are skewed which lead to not accurate prediction
+1. Skewed datasets.
+
+   Age predition model had a very low accuraries of 45% which was mainly beacuse of too less data of age above 80 and too many data between age 20-30. The impact showed clearly when we applied the model on images, it couldn't make accurate prediction on elderly. 
+   
+   Same as emotion model, the lack of "sad" emotion data led to a bad performance on "sad face".
+   
+2. Long training time
+   
+   CNN could be very computational expensive with all the hidden layers involved to extract features. Long training time plus limited project time frame, we downsized the age and gender dataset from 20k+ to only 5000 images. It could be one of the reasons why age prediction model had low accuracy, not enough data to train for predicting 10 classes.
+
 
 ## Next Steps
-1. Apply Oversampling and undersampling on our skewed dataset to predict a more accurate result
-2. Apply transfer learning on prediction models to enhance accuracy, e.g. VGGFace
-3. Crop and save correct labelled data to our training dataset to increase the accuries(how do we measure the accuries?)
+1. Apply Oversampling and undersampling on our skewed dataset to have a more accurate prediction
+2. Try tuning more hyperparameters while training models
+3. Apply transfer learning on prediction models to enhance accuracy, e.g. VGGFace
 4. Apply on real time video
+5. slow down learning rate, change hyperparameter on age model, add more data to train
+6. Deploy on streamlit or other app
