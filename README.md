@@ -52,11 +52,14 @@ We only used 3 emotions (happy, neutral, sad) in this project since these 3 emot
 
    It is also a skewed dataset with the images of "sad" is much less than the other two emotions.
 
-   Emotions | no. of images | percentage%
-   -------- | ------------- | ----------
-   Happy | 1774 | 57%
-   Neutral | 1233 | 39.5%
-   Sad | 111 | 3.5%
+   dataset | Emotions | no. of images 
+   ------- | -------- | ------------- 
+   Training | Happy | 7215 |
+   -- | Neutral | 4965 |
+   -- | Sad | 436 | 
+   Testing | Happy | 1774 
+   -- | Neutral | 1233 
+   -- | Sad | 111 
 
 3. Face detection
 
@@ -97,18 +100,23 @@ We only used 3 emotions (happy, neutral, sad) in this project since these 3 emot
    ImageDataGenerator (image augmentation) was applied to add more training data into the model and create variability in the data in order to improve the model prediction accuracy. 
 
 ## Face detection
-MTCNN
+**MTCNN**
+
+MTCNN or "Multi-Task Cascaded Convolutional Neural Network" is a python (pip) library written by Github user ipacz (check out the open source project [here](https://github.com/ipazc/mtcnn)). It got its name because of the cascade structure uses in the network and it is "multi-task" because it uses three models. The three models make three types of predictions, face classification, bounding box regression, and facial landmark localization. They are not connected directly; instead, outputs of the previous stage are fed as input to the next stage.
 
 
 ## Model Building (evaluation and validation?)
 1. Age 
-2. using only 5000 images
-   train test split 8:2
+   Due to the large data size, we randomly selected 5000 images for model training in order to save the training time. 
+   Splited the training and testing dataset into 8:2 ratio (training: 4000 images, testing 1000 images).
    result, accuracy: 
    
 2. Gender 
+  Also randmly selected 5000 images for the gender prediction model with train 8 : test 2 ratio (training: 4000 images, testing 1000 images)
 
 3. Emotion
+
+## Result
 
 ## Conclusion
 
